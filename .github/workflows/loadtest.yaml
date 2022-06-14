@@ -30,7 +30,7 @@ jobs:
     
     - name: Run apache benchmark
       run: |
-        ab -n 1100 -c 100 http://34.78.26.189/
+        ab -n 1100 -c 100 http://34.159.2.44/
     
     - name: Autoscaling
       run: |

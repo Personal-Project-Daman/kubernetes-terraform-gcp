@@ -1,5 +1,5 @@
 provider "google" {
-  version = "~> 3.42.0"
+  version = "3.42.0"
 }
 terraform {
   backend "gcs" {

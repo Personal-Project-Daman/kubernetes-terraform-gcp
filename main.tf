@@ -1,5 +1,6 @@
 provider "google" {
-  version = "4.24.0"
+  project     = var.project_id
+  region      = var.region
 }
 terraform {
   backend "gcs" {

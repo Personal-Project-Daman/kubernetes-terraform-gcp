@@ -5,7 +5,7 @@ on: workflow_dispatch
 env:
   project_id: ${{ secrets.GCP_PROJECT }}
   cluster_name: "k8-cluster"
-  region: "europe-west1"
+  region: "europe-west3"
   
 jobs:
   loadtest:

@@ -1,4 +1,4 @@
-name: Terraform k8
+name: Terraform Destroy
 
 on: workflow_dispatch
 

@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: welcome-page
-        image: eu.gcr.io/cicd-cgi/welcome-page:latest
+        image: eu.gcr.io/nth-wording-353303/welcome-page:latest
         imagePullPolicy: Always
         ports:
         - name: http-server

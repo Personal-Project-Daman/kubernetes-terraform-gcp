@@ -6,6 +6,7 @@ metadata:
     cloud.google.com/load-balancer-type: "External"
     kubernetes.io/ingress.class: "gce"
 spec:
+
   rules:
     - host: example.com
       http:
@@ -17,3 +18,5 @@ spec:
                 name: welcome-page
                 port: 
                   number: 80
+                loadBalancerIP: 34.159.2.44
+                type: LoadBalancer

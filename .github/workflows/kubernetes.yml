@@ -54,6 +54,6 @@ jobs:
         kubectl apply -f ./k8config/deployment.yaml 
         kubectl expose deployment welcome-page --name=welcome-page --type=LoadBalancer --port 80 --target-port 8080
         kubectl apply -f ./k8config/ingress.yaml 
-        kubectl patch svc backend -p '{"spec":{"externalIPs":["34.159.2.44"]}}'
+        kubectl patch svc welcome-page -p '{"spec":{"externalIPs":["34.159.2.44"]}}'
         kubectl apply -f ./k8config/hpa.yaml 
         

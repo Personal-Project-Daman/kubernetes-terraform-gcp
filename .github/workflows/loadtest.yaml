@@ -1,0 +1,38 @@
+name: Load test
+
+on: workflow_dispatch
+
+env:
+  project_id: ${{ secrets.GCP_PROJECT }}
+  cluster_name: "k8-cluster"
+  region: "europe-west1"
+  
+jobs:
+  loadtest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      
+    defaults:
+      run:
+        shell: bash
+    
+    steps:
+    - name: Authenticate to Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+    
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+    
+    - name: Run apache benchmark
+      run: |
+        ab -n 1100 -c 100 http://34.78.26.189/
+    
+    - name: Autoscaling
+      run: |
+        gcloud container clusters get-credentials $cluster_name --region $region --project $project_id
+        kubectl describe hpa

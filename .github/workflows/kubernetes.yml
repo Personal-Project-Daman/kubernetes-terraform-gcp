@@ -1,0 +1,57 @@
+name: Terraform k8
+
+on: workflow_dispatch
+
+env:
+  TF_VAR_project_id: ${{ secrets.GCP_PROJECT }}
+  TF_VAR_cluster_name: "k8-cluster"
+  TF_VAR_region: "europe-west3"
+  TF_VAR_network: "gke-network"
+  TF_VAR_subnetwork: "gke-subnet"
+  TF_VAR_ip_range_pods_name: "ip-range-pods"
+  TF_VAR_ip_range_services_name: "ip-range-services"
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Authenticate to Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v0
+      with:
+        credentials_json: '${{ secrets.GCP_CREDENTIALS }}'
+      
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@v0
+    
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Plan
+      run: terraform plan
+
+    - name: Terraform Apply
+      run: terraform apply -auto-approve
+      
+    - name: Kubectl
+      run: |
+        kubectl get nodes --kubeconfig=kubeconfig
+        gcloud container clusters get-credentials $TF_VAR_cluster_name --region $TF_VAR_region --project $TF_VAR_project_id
+        kubectl apply -f ./k8config/deployment.yaml 
+        kubectl expose deployment welcome-page --name=welcome-page --type=LoadBalancer --port 80 --target-port 8080
+        kubectl apply -f ./k8config/ingress.yaml 
+        kubectl apply -f ./k8config/hpa.yaml 

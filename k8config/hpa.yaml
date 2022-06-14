@@ -1,0 +1,12 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: welcome-page
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: welcome-page
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 30

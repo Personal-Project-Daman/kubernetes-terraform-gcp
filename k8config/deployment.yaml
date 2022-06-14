@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: welcome-page
+  labels:
+    app: welcome-page
+    tier: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: welcome-page
+  template:
+    metadata:
+      labels:
+        app: welcome-page
+        tier: frontend
+    spec:
+      containers:
+      - name: welcome-page
+        image: eu.gcr.io/cicd-cgi/welcome-page:latest
+        imagePullPolicy: Always
+        ports:
+        - name: http-server
+          containerPort: 8080
+        resources:
+          requests:
+            cpu: 50m
+          limits:
+            cpu: 500m

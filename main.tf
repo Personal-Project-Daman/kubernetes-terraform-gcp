@@ -22,7 +22,6 @@ resource "local_file" "kubeconfig" {
 }
 module "gcp-network" {
   source       = "terraform-google-modules/network/google"
-  version      = "~> 2.5"
   project_id   = var.project_id
   network_name = "${var.network}"
   subnets = [
@@ -60,7 +59,7 @@ module "gke" {
     {
       name                      = "node-pool"
       machine_type              = "e2-medium"
-      node_locations            = "europe-west1-b"
+      node_locations            = "europe-west3-b"
       min_count                 = 1
       max_count                 = 10
       disk_size_gb              = 10

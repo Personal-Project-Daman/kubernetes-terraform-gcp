@@ -18,4 +18,3 @@ spec:
                 name: welcome-page
                 port: 
                   number: 80
-                loadBalancerIP: 34.159.2.44

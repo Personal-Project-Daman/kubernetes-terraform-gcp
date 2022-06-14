@@ -53,7 +53,5 @@ jobs:
         gcloud container clusters get-credentials $TF_VAR_cluster_name --region $TF_VAR_region --project $TF_VAR_project_id
         kubectl apply -f ./k8config/deployment.yaml 
         kubectl expose deployment welcome-page --name=welcome-page --type=LoadBalancer --port 80 --target-port 8080
-        #kubectl apply -f ./k8config/ingress.yaml 
-        kubectl patch svc welcome-page -p '{"spec":{"externalIPs":["34.159.2.44"]}}'
         kubectl apply -f ./k8config/hpa.yaml 
         
